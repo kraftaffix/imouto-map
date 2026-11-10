@@ -1,6 +1,6 @@
-# UsadventureMap
+# imouto map
 
-A fork of the interactive map for people to use since the original GitHub Pages is dead lol
+A fork of the UsadventureMap interactive map for people to use since the original GitHub Pages is dead lol
 
 ### Credits
 * **Original Repository:** [pzx521521/UsadventureMap](https://github.com/pzx521521/UsadventureMap)
