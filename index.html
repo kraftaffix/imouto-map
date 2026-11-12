@@ -4,6 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>imouto map</title>
+  <!-- Website Favicon / App Icons (ASABA.png) -->
+  <link rel="icon" type="image/png" href="https://github.com/kraftaffix/imouto-map/blob/main/ASABA.png?raw=true">
+  <link rel="apple-touch-icon" href="https://github.com/kraftaffix/imouto-map/blob/main/ASABA.png?raw=true">
+  <!-- Discord / Open Graph & Twitter Card Embed Meta Tags -->
+  <meta name="title" content="imouto map">
+  <meta name="description" content="interactive map for imouto game">
+  <meta name="theme-color" content="#e5c158">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="imouto map">
+  <meta property="og:title" content="imouto map">
+  <meta property="og:description" content="interactive map for imouto game">
+  <meta property="og:url" content="https://kraftaffix.github.io/imouto-map/">
+  <meta property="og:image" content="https://github.com/kraftaffix/imouto-map/blob/main/ASABA.png?raw=true">
+  <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/kraftaffix/imouto-map/main/ASABA.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="imouto map">
+  <meta name="twitter:description" content="interactive map for imouto game">
+  <meta name="twitter:image" content="https://github.com/kraftaffix/imouto-map/blob/main/ASABA.png?raw=true">
   <!-- Tailwind CSS CDN (Pinned Version) -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <!-- Leaflet CSS & JS (Pinned Version 1.9.4) -->
@@ -297,15 +315,10 @@
         <button type="button" data-lang="ja" class="lang-btn px-2 py-1 rounded-lg text-slate-400 hover:text-slate-200 transition">日本語</button>
       </div>
 
-      <!-- Current Map Exploration Progress Pill -->
-      <div class="glass-panel h-11 px-3.5 rounded-xl hidden sm:flex items-center gap-3">
-        <div class="flex flex-col items-end">
-          <div class="text-[10px] font-mono-tech uppercase tracking-wider text-slate-400">Sector Sync</div>
-          <div id="hud-sector-progress-text" class="text-xs font-mono-tech font-semibold text-amber-300">0 / 0 Pins</div>
-        </div>
-        <div class="w-16 h-2 rounded-full bg-slate-800 overflow-hidden border border-slate-700">
-          <div id="hud-sector-progress-bar" class="h-full bg-gradient-to-r from-cyan-400 to-amber-400 transition-all duration-300" style="width: 0%"></div>
-        </div>
+      <!-- Current Map Exploration Progress Pill (Removed per user request) -->
+      <div class="hidden">
+        <div id="hud-sector-progress-text"></div>
+        <div id="hud-sector-progress-bar"></div>
       </div>
 
       <!-- Toggle Top Minimap Button -->
@@ -331,28 +344,16 @@
   <!-- ==================== TOP-SIDE INTERACTIVE 2D ROOM-GRID MINIMAP HUD ==================== -->
   <section id="top-minimap-hud" aria-label="Interactive World Room Minimap"
     class="fixed top-16 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-3 z-30 w-[330px] sm:w-[370px] glass-panel rounded-2xl border border-amber-400/40 overflow-hidden shadow-2xl transition-all duration-300">
-    <!-- Minimap Top Header Bar -->
-    <div class="px-3 py-2 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between gap-1.5">
-      <div class="flex items-center gap-1.5 min-w-0">
-        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping shrink-0"></span>
-        <span id="minimap-quadrant-label" class="text-[10px] font-mono-tech font-bold uppercase tracking-wider text-amber-300 truncate">
-          MAP #01 · CENTRAL CORE
-        </span>
-      </div>
+    <!-- Minimap Top Header Bar (Streamlined) -->
+    <div class="px-3 py-1.5 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between gap-1.5">
+      <button id="btn-minimap-mode-nodes" type="button" title="World Room Grid View"
+        class="px-2 py-0.5 rounded text-[9px] font-mono-tech font-bold uppercase bg-amber-400/20 text-amber-300 border border-amber-400/40 transition">
+        World
+      </button>
       <div class="flex items-center gap-1 shrink-0">
-        <!-- Go to Current Location Button -->
-        <button id="btn-minimap-locate-me" type="button" title="Go to Current Location"
-          class="px-2 py-0.5 rounded bg-rose-500/20 hover:bg-rose-500/35 text-rose-200 border border-rose-500/50 text-[9px] font-mono-tech font-bold flex items-center gap-1 transition">
-          <span>Go to current location</span>
-        </button>
-        <button id="btn-minimap-mode-nodes" type="button" title="World Room Grid View"
-          class="px-1.5 py-0.5 rounded text-[9px] font-mono-tech font-bold uppercase bg-amber-400/20 text-amber-300 border border-amber-400/40 transition">
-          World
-        </button>
-        <button id="btn-minimap-mode-radar" type="button" title="Single Sector Detail Radar"
-          class="px-1.5 py-0.5 rounded text-[9px] font-mono-tech font-semibold uppercase text-slate-400 hover:text-slate-200 transition">
-          Radar
-        </button>
+        <span id="minimap-quadrant-label" class="hidden"></span>
+        <button id="btn-minimap-locate-me" type="button" class="hidden"><span>Go to current location</span></button>
+        <button id="btn-minimap-mode-radar" type="button" class="hidden">Radar</button>
         <button id="btn-minimap-expand" type="button" title="Expand / Shrink Minimap"
           class="w-5 h-5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-[10px] font-mono-tech transition">
           ⤢
@@ -401,11 +402,8 @@
         </svg>
       </button>
 
-      <button type="button" data-tab="filters" class="rail-tab-btn group relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-100 hover:bg-slate-800/60 transition" title="Pin Category Filters">
-        <span class="rail-indicator hidden absolute -left-2 w-1 h-5 rounded-r bg-amber-400"></span>
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-        </svg>
+      <button type="button" data-tab="filters" class="hidden" title="Pin Category Filters">
+        <span class="rail-indicator hidden"></span>
       </button>
 
       <button type="button" data-tab="tracker" class="rail-tab-btn group relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-100 hover:bg-slate-800/60 transition" title="Sector Pin Checklist & R-Codes">
@@ -453,7 +451,7 @@
           <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
-          <input id="global-search-input" type="text" placeholder="Search 41 maps, R-codes, items..."
+          <input id="global-search-input" type="text" placeholder="Search 48 maps, R-codes, items..."
             class="w-full pl-9 pr-8 py-2 text-xs rounded-xl bg-slate-950/90 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/70 transition" />
           <button id="btn-clear-search" type="button" title="Clear Search"
             class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
@@ -727,7 +725,7 @@
     // =========================================================================
     // 1. SAFE LOCALSTORAGE WRAPPER & GLOBAL STATE
     // =========================================================================
-    const STORAGE_KEY = 'astral_solaris_map_collected_v1';
+    const STORAGE_KEY = 'imouto_map_collected_v1';
 
     function loadCollectedSet() {
       try {
@@ -875,7 +873,14 @@
       38: { file: 'Map38/Map38.png', width: 1584, height: 1584, category: 'abyss', title: "Scorching Lava Zone\n大焦熱溶岩帶\n大焦熱溶岩帯" },
       39: { file: 'Map39/Map39.png', width: 816, height: 624, category: 'others', title: "Forgotten Catacombs Hideout\n被遺忘的墓穴:藏身處\n忘却のカタコンベ:隠れ家" },
       40: { file: 'Map40/Map40.png', width: 2016, height: 1728, category: 'others', title: "The Fallen Sanctuary\n墮落的聖堂\n堕落の聖堂" },
-      41: { file: 'Map41/Map41.png', width: 2352, height: 1200, category: 'outside', title: "Adventurer's Path: Grove - 3\n冒険者小道:林間 - 3\n冒険の遊歩道:林間 - 3" }
+      41: { file: 'Map41/Map41.png', width: 2352, height: 1200, category: 'outside', title: "Adventurer's Path: Grove - 3\n冒険者小道:林間 - 3\n冒険の遊歩道:林間 - 3" },
+      42: { file: 'Map008/Map008.png', width: 1584, height: 1488, category: 'abyss', title: "Scorching Lava Zone: North (Map008)\n大焦熱溶岩帶:北 (Map008)\n大焦熱溶岩帯:北 (Map008)" },
+      43: { file: 'Map023/Map023.png', width: 1584, height: 1488, category: 'abyss', title: "Scorching Lava Zone: East Isles (Map023)\n大焦熱溶岩帶:東島 (Map023)\n大焦熱溶岩帯:東島 (Map023)" },
+      44: { file: 'Map068/Map068.png', width: 1920, height: 1584, category: 'abyss', title: "Scorching Lava Zone: West Basin (Map068)\n大焦熱溶岩帶:西 (Map068)\n大焦熱溶岩帯:西 (Map068)" },
+      45: { file: 'Map069/Map069.png', width: 1920, height: 1584, category: 'abyss', title: "Scorching Lava Zone: East Ridge (Map069)\n大焦熱溶岩帶:東 (Map069)\n大焦熱溶岩帯:東 (Map069)" },
+      46: { file: 'Map070/Map070.png', width: 1584, height: 1488, category: 'abyss', title: "Scorching Lava Zone: Far East (Map070)\n大焦熱溶岩帶:極東 (Map070)\n大焦熱溶岩帯:極東 (Map070)" },
+      47: { file: 'Map071/Map071.png', width: 1920, height: 1680, category: 'abyss', title: "Scorching Lava Zone: NW Bridge (Map071)\n大焦熱溶岩帶:西北 (Map071)\n大焦熱溶岩帯:西北 (Map071)" },
+      48: { file: 'map072/Map072.png', altFile: 'Map072/Map072.png', width: 2352, height: 2064, category: 'abyss', title: "Scorching Lava Zone: Caldera (Map072)\n大焦熱溶岩帶:核心 (Map072)\n大焦熱溶岩帯:深部 (Map072)" }
     };
 
     function parseTitleParts(titleStr) {
@@ -1225,8 +1230,12 @@
         { lat: 1049, lng: 573, img: 'questionmark.png', w: 46, h: 46, cat: 'secret', label: 'Jump down to Scorching Lava Zone - R55' }
       ],
       38: [
-        { lat: 520, lng: 678, img: 'questionmark.png', w: 46, h: 46, cat: 'secret', label: 'This area is still under development. Use the map function to change maps.' },
-        { lat: 742, lng: 335, img: 'Map38/ring.png', w: 27, h: 26, cat: 'equip', label: 'Lava Ring - R22' }
+        { lat: 742, lng: 335, img: 'Map38/ring.png', w: 27, h: 26, cat: 'equip', label: 'Lava Ring - R22' },
+        { lat: 1515, lng: 723, img: 'uparrow.gif', w: 30, h: 50, cat: 'transition', dir: 'North', targetMap: 42, label: 'Warp to Scorching Lava Zone: North (Map008)' },
+        { lat: 1269, lng: 121, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'West', targetMap: 44, label: 'Warp to Scorching Lava Zone: West Basin (Map068)' },
+        { lat: 1390, lng: 1507, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'Upper-East', targetMap: 45, label: 'Warp to Scorching Lava Zone: East Ridge (Map069 - Upper)' },
+        { lat: 1127, lng: 1531, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'Lower-East', targetMap: 45, label: 'Warp to Scorching Lava Zone: East Ridge (Map069 - Lower)' },
+        { lat: 69, lng: 715, img: 'downarrow.gif', w: 30, h: 50, cat: 'transition', dir: 'South', targetMap: 48, label: 'Warp to Scorching Lava Zone: Caldera (Map072)' }
       ],
       39: [
         { lat: 570, lng: 407, img: 'uparrow.gif', w: 30, h: 50, cat: 'transition', dir: 'Exit Hideout', targetMap: 35, label: 'Warp to Forgotten Catacombs' },
@@ -1247,6 +1256,45 @@
         { lat: 420, lng: 30, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'West', targetMap: 6, label: "Warp to Adventurer's Path: Grove - 2" },
         { lat: 520, lng: 2320, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'East', targetMap: 7, label: "Warp to Adventurer's Path: Monument" },
         { lat: 530, lng: 2092, circle: 40, cat: 'npc', label: 'ASABA (Random) - R77' }
+      ],
+      // === NEW SCORCHING LAVA ZONE EXTENSION MAPS (42 - 48) ===
+      // 42: Map008 (Top-Center-Left)
+      42: [
+        { lat: 1034, lng: 76, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'West', targetMap: 47, label: 'Warp to Scorching Lava Zone: NW Bridge (Map071)' },
+        { lat: 410, lng: 1512, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'East', targetMap: 43, label: 'Warp to Scorching Lava Zone: East Isles (Map023)' },
+        { lat: 72, lng: 864, img: 'downarrow.gif', w: 30, h: 50, cat: 'transition', dir: 'South', targetMap: 38, label: 'Warp to Scorching Lava Zone (Map38)' }
+      ],
+      // 43: Map023 (Top-Center-Right)
+      43: [
+        { lat: 404, lng: 76, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'West', targetMap: 42, label: 'Warp to Scorching Lava Zone: North (Map008)' },
+        { lat: 1144, lng: 1516, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'East', targetMap: 46, label: 'Warp to Scorching Lava Zone: Far East (Map070)' }
+      ],
+      // 44: Map068 (Middle-Left)
+      44: [
+        { lat: 1512, lng: 230, img: 'uparrow.gif', w: 30, h: 50, cat: 'transition', dir: 'North', targetMap: 47, label: 'Warp to Scorching Lava Zone: NW Bridge (Map071)' },
+        { lat: 1363, lng: 1847, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'East', targetMap: 38, label: 'Warp to Scorching Lava Zone (Map38)' },
+        { lat: 76, lng: 218, img: 'downarrow.gif', w: 30, h: 50, cat: 'transition', dir: 'South', targetMap: 48, label: 'Warp to Scorching Lava Zone: Caldera (Map072 - West)' }
+      ],
+      // 45: Map069 (Middle-Right)
+      45: [
+        { lat: 1386, lng: 77, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'Upper-West', targetMap: 38, label: 'Warp to Scorching Lava Zone (Map38 - Upper)' },
+        { lat: 1123, lng: 77, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'Lower-West', targetMap: 38, label: 'Warp to Scorching Lava Zone (Map38 - Lower)' },
+        { lat: 69, lng: 407, img: 'downarrow.gif', w: 30, h: 50, cat: 'transition', dir: 'South', targetMap: 48, label: 'Warp to Scorching Lava Zone: Caldera (Map072 - East)' }
+      ],
+      // 46: Map070 (Top-Far-Right)
+      46: [
+        { lat: 1160, lng: 69, img: 'leftarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'West', targetMap: 43, label: 'Warp to Scorching Lava Zone: East Isles (Map023)' }
+      ],
+      // 47: Map071 (Top-Left)
+      47: [
+        { lat: 1127, lng: 1851, img: 'rightarrow.gif', w: 50, h: 30, cat: 'transition', dir: 'East', targetMap: 42, label: 'Warp to Scorching Lava Zone: North (Map008)' },
+        { lat: 73, lng: 190, img: 'downarrow.gif', w: 30, h: 50, cat: 'transition', dir: 'South', targetMap: 44, label: 'Warp to Scorching Lava Zone: West Basin (Map068)' }
+      ],
+      // 48: Map072 (Bottom Caldera Arena)
+      48: [
+        { lat: 1991, lng: 209, img: 'uparrow.gif', w: 30, h: 50, cat: 'transition', dir: 'North-West', targetMap: 44, label: 'Warp to Scorching Lava Zone: West Basin (Map068)' },
+        { lat: 1991, lng: 1196, img: 'uparrow.gif', w: 30, h: 50, cat: 'transition', dir: 'North-Center', targetMap: 38, label: 'Warp to Scorching Lava Zone (Map38)' },
+        { lat: 1991, lng: 2167, img: 'uparrow.gif', w: 30, h: 50, cat: 'transition', dir: 'North-East', targetMap: 45, label: 'Warp to Scorching Lava Zone: East Ridge (Map069)' }
       ]
     };
 
@@ -1574,9 +1622,16 @@
         currentOverlay = L.imageOverlay(probeImg.src, bounds).addTo(map);
       };
       probeImg.onerror = () => {
-        if (!probeImg.getAttribute('data-tried-mirror')) {
-          probeImg.setAttribute('data-tried-mirror', '1');
+        const step = probeImg.getAttribute('data-fb-step') || '0';
+        if (step === '0' && data.altFile) {
+          probeImg.setAttribute('data-fb-step', '1');
+          probeImg.src = data.altFile;
+        } else if (step === '0' || step === '1') {
+          probeImg.setAttribute('data-fb-step', '2');
           probeImg.src = CDN_MIRROR + data.file;
+        } else if (step === '2' && data.altFile) {
+          probeImg.setAttribute('data-fb-step', '3');
+          probeImg.src = CDN_MIRROR + data.altFile;
         }
       };
       probeImg.src = data.file;
@@ -1665,14 +1720,27 @@
       33: { x: 40,   y: 90,  w: 120, h: 130, short: 'Mines - 4' },
 
       // === ABYSS RUINS & CATACOMBS (NORTH CITADEL) ===
-      // Note: Map 38 (Scorching Lava Zone) has 0 connecting maps on the main map,
-      // so it is intentionally excluded from WORLD_ROOM_RECTS and kept in the Terminal!
       34: { x: 250,  y: -100, w: 140, h: 130, short: 'Ruins Labyrinth' },
       35: { x: 250,  y: -280, w: 135, h: 125, short: 'Catacombs' },
       39: { x: 435,  y: -280, w: 115, h: 110, short: 'Hideout' },
       36: { x: 40,   y: -100, w: 135, h: 130, short: 'Catacombs B1' },
       37: { x: -150, y: -100, w: 130, h: 130, short: 'Catacombs B2' },
-      40: { x: -150, y: -280, w: 130, h: 120, short: 'Sanctuary' }
+      40: { x: -150, y: -280, w: 130, h: 120, short: 'Sanctuary' },
+
+      // === SCORCHING LAVA ZONE CLUSTER (MATCHING New Project(1).jpg LAYOUT!) ===
+      // Top Row (Left to Right): Map071 (#47) -> Map008 (#42) -> Map023 (#43) -> Map070 (#46)
+      47: { x: -910, y: -290, w: 145, h: 125, short: 'Map071' },
+      42: { x: -710, y: -280, w: 125, h: 115, short: 'Map008' },
+      43: { x: -530, y: -280, w: 125, h: 115, short: 'Map023' },
+      46: { x: -350, y: -280, w: 125, h: 115, short: 'Map070' },
+
+      // Middle Row (Left to Right): Map068 (#44) <-> Map38 (#38, 2 right exits) <-> Map069 (#45)
+      44: { x: -910, y: -100, w: 145, h: 120, short: 'Map068' },
+      38: { x: -710, y: -100, w: 125, h: 120, short: 'Map38 Lava' },
+      45: { x: -530, y: -105, w: 145, h: 120, short: 'Map069' },
+
+      // Bottom Row: Map072 (#48, connected from Map068, Map38, and Map069)
+      48: { x: -745, y: 80,   w: 195, h: 165, short: 'Map072' }
     };
 
     // Dynamically verify that only maps with actual connecting arrows on the main map
@@ -1741,13 +1809,33 @@
       { from: 31, to: 32, ax: 1.00, ay: 0.50, bx: 0.00, by: 0.50 },
       { from: 32, to: 33, ax: 0.50, ay: 0.0,  bx: 0.50, by: 1.0 },
 
-      // Catacombs & Abyss (34 -> 35 -> 39 / 36 -> 37 -> 40)
+      // Catacombs & Abyss (34 -> 35 -> 39 / 36 -> 37 -> 40 & 37 -> 38)
       { from: 34, to: 35, ax: 0.50, ay: 0.0,  bx: 0.50, by: 1.0 },
       { from: 35, to: 39, ax: 1.00, ay: 0.50, bx: 0.00, by: 0.50 },
       { from: 35, to: 36, ax: 0.00, ay: 0.70, bx: 0.70, by: 0.0 },
       { from: 33, to: 36, ax: 0.50, ay: 0.0,  bx: 0.50, by: 1.0 },
       { from: 36, to: 37, ax: 0.00, ay: 0.50, bx: 1.00, by: 0.50 },
-      { from: 37, to: 40, ax: 0.50, ay: 0.0,  bx: 0.50, by: 1.0 }
+      { from: 37, to: 40, ax: 0.50, ay: 0.0,  bx: 0.50, by: 1.0 },
+
+      // === SCORCHING LAVA ZONE ROAD CONNECTIONS (MATCHING New Project(1).jpg!) ===
+      // Top Row roads: Map071 (#47) -> Map008 (#42) -> Map023 (#43) -> Map070 (#46)
+      { from: 47, to: 42, ax: 1.00, ay: 0.30, bx: 0.00, by: 0.31 },
+      { from: 42, to: 43, ax: 1.00, ay: 0.72, bx: 0.00, by: 0.73 },
+      { from: 43, to: 46, ax: 1.00, ay: 0.23, bx: 0.00, by: 0.22 },
+
+      // Vertical roads from Top Row to Middle Row: Map071 -> Map068, Map008 -> Map38
+      { from: 47, to: 44, ax: 0.12, ay: 1.00, bx: 0.12, by: 0.00 },
+      { from: 42, to: 38, ax: 0.55, ay: 1.00, bx: 0.46, by: 0.00 },
+
+      // Middle Row roads: Map068 (#44) <-> Map38 (#38) & TWO parallel roads Map38 <-> Map069 (#45)
+      { from: 44, to: 38, ax: 1.00, ay: 0.16, bx: 0.00, by: 0.20 },
+      { from: 38, to: 45, ax: 1.00, ay: 0.12, bx: 0.00, by: 0.15 },
+      { from: 38, to: 45, ax: 1.00, ay: 0.29, bx: 0.00, by: 0.32 },
+
+      // Three converging roads from Middle Row (Map068, Map38, Map069) into Map072 (#48)
+      { from: 44, to: 48, ax: 0.12, ay: 1.00, bx: 0.10, by: 0.00 },
+      { from: 38, to: 48, ax: 0.46, ay: 1.00, bx: 0.51, by: 0.00 },
+      { from: 45, to: 48, ax: 0.21, ay: 1.00, bx: 0.91, by: 0.00 }
     ];
 
     const minimapState = {
@@ -2299,7 +2387,7 @@
       Object.keys(mapData).forEach(mId => {
         globalTotal += (RAW_PINS_BY_MAP[Number(mId)] || []).filter(p => !p.decorative).length;
       });
-      document.getElementById('global-progress-label').textContent = `41 Maps · ${globalTotal} Pins`;
+      document.getElementById('global-progress-label').textContent = `48 Maps · ${globalTotal} Pins`;
       document.getElementById('global-progress-bar').style.width = `100%`;
 
       renderSectorList();
@@ -2777,11 +2865,11 @@
 
       // Prev / Next Sector buttons
       document.getElementById('btn-prev-map').addEventListener('click', () => {
-        const prev = state.currentMap > 1 ? state.currentMap - 1 : 41;
+        const prev = state.currentMap > 1 ? state.currentMap - 1 : 48;
         loadMap(prev);
       });
       document.getElementById('btn-next-map').addEventListener('click', () => {
-        const next = state.currentMap < 41 ? state.currentMap + 1 : 1;
+        const next = state.currentMap < 48 ? state.currentMap + 1 : 1;
         loadMap(next);
       });
 
@@ -2871,10 +2959,10 @@
         if (key === 'm') {
           setSidebarOpen(!state.sidebarOpen);
         } else if (e.key === '[') {
-          const prev = state.currentMap > 1 ? state.currentMap - 1 : 41;
+          const prev = state.currentMap > 1 ? state.currentMap - 1 : 48;
           loadMap(prev);
         } else if (e.key === ']') {
-          const next = state.currentMap < 41 ? state.currentMap + 1 : 1;
+          const next = state.currentMap < 48 ? state.currentMap + 1 : 1;
           loadMap(next);
         } else if (key === 'r') {
           const d = mapData[state.currentMap];
